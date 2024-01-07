@@ -86,22 +86,28 @@ if button:
     # st.image(get_details(title)["Poster"])
     # st.write(get_details(title)["Plot"])
     try:
-        cols = st.columns(len(titles))  # Create columns for grid layout
+        v = 3  # Number of columns
+        cols = st.columns(v)  # Create columns for grid layout
     except Exception as e:
         print(e)
         st.header("Something went wrong. Please try again.")
         os._exit(0)
-    i=0
-    for col in cols:
-        try:
-            movie_details = get_details(titles[i])  # Replace with the desired title
-            poster_url = movie_details["Poster"]
-            with col:
-                st.image(poster_url, width=150)
-                st.write(movie_details["Plot"])
-        except Exception as e:
-            print(e)
-        i=i+1    
+
+    i = 0
+    while i < len(titles):
+        with st.container():
+            for col in cols:
+                if i < len(titles):  # Check if there are remaining items
+                    try:
+                        movie_details = get_details(titles[i])
+                        poster_url = movie_details["Poster"]
+                        with col:
+                            st.image(poster_url, width=150)
+                            st.write(movie_details["Plot"])
+                    except Exception as e:
+                        print(e)
+                i += 1  # Increment index only once per loop iteration
+ 
 
     # for i, title in enumerate(titles):
     #     with cols[i]:
